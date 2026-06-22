@@ -1,7 +1,6 @@
 import logging
 import os
 import streamlit as st
-
 from .config import cfg
 
 logging.basicConfig(level=logging.INFO)
@@ -11,7 +10,9 @@ logging.basicConfig(level=logging.INFO)
 def get_llm():
     from langchain_groq import ChatGroq
 
-    api_key = os.getenv("GROQ_API_KEY")
+    # st.secrets for Streamlit Cloud, os.getenv for local
+    api_key = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+
     if not api_key:
         raise ValueError("GROQ_API_KEY not found.")
 
